@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.dam.iot.model.ApiHumidadeResponse
 import com.dam.iot.model.ApiLedResponse
@@ -15,12 +16,15 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
+   // private var text: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val listaFlores = findViewById<Button>(R.id.listaFlores)
         val adicionarFlores = findViewById<Button>(R.id.adicionarFlores)
+        val estadoRega = findViewById<EditText>(R.id.estadoRega)
+
 
         listaFlores.setOnClickListener {
             //  val intent = Intent(this, Flores::class.java)
@@ -31,7 +35,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         adicionarFlores.setOnClickListener{
-            setManualIrrigationState("on")
+            val text = estadoRega.text.toString()
+            setManualIrrigationState(text)
         }
     }
 
