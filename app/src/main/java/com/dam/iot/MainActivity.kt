@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             //  val intent = Intent(this, Flores::class.java)
             //startActivity(intent)
             getLedState()
-            getHimidadeState()
+            getHumidadeState()
             getRAState()
         }
 
@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getHimidadeState() {
+    private fun getHumidadeState() {
         val call = ApiService.api.getHumidity()
         // To get LED state
         call.enqueue(object : Callback<ApiHumidadeResponse> {
