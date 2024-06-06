@@ -11,12 +11,4 @@
     app:title="Internet of Things"
     app:titleTextColor="@color/white">
 
-    <!-- ImageView para o ícone de adição -->
-    <ImageView
-        android:id="@+id/mais"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/baseline_add_24_medio"
-        android:layout_gravity="end" />
-
 </androidx.appcompat.widget.Toolbar>

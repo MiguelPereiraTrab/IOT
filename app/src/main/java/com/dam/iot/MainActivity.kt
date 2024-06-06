@@ -16,7 +16,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
-   // private var text: String = ""
+    // private var text: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,10 +27,8 @@ class MainActivity : AppCompatActivity() {
 
 
         listaFlores.setOnClickListener {
-            //  val intent = Intent(this, Flores::class.java)
-            //startActivity(intent)
             getLedState()
-            getHimidadeState()
+            getHumidadeState()
             getRAState()
         }
 
@@ -68,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getHimidadeState() {
+    private fun getHumidadeState() {
         val call = ApiService.api.getHumidity()
         // To get LED state
         call.enqueue(object : Callback<ApiHumidadeResponse> {
@@ -150,10 +148,10 @@ class MainActivity : AppCompatActivity() {
 
 // Exemplo de uso:
 // Para ligar a rega manual:
-  //  setManualIrrigationState("on")
+    //  setManualIrrigationState("on")
 
 // Para desligar a rega manual:
-   // setManualIrrigationState("off")
+    // setManualIrrigationState("off")
 
 
 }

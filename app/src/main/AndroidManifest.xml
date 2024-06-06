@@ -29,7 +29,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Flores"/>
-        <activity android:name=".AdicionarFlores"/>
     </application>
 
 </manifest>
