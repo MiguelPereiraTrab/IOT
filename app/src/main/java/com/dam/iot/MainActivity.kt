@@ -182,9 +182,10 @@ class MainActivity : AppCompatActivity() {
                         val apiResponse = response.body()
                         if (apiResponse != null ) {
                             val humidade = apiResponse.humidade
+                            val humidadeArredondada = String.format("%.1f", humidade)
                             Log.e("ADMIN!!", "Humidade: $humidade")
                             // Handle the LED state
-                            displayHumidade.text = "$humidade"
+                            displayHumidade.text = "$humidadeArredondada%"
                         } else {
                             Log.e("Erro", "Resposta vazia ou mal formatada")
                         }
