@@ -17,6 +17,7 @@ import com.dam.iot.model.ApiHumidadeResponse
 import com.dam.iot.model.ApiLedResponse
 import com.dam.iot.model.ApiRAResponse
 import com.dam.iot.model.RegaRequest
+import com.dam.iot.model.RegaResponse
 import com.dam.iot.retrofit.ApiService
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,6 +30,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var displayHumidade: TextView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var regState: TextView // Adiciona esta linha
+    private lateinit var circle1: ImageView // Declarar circle1 como propriedade da classe
+    private lateinit var circle2: ImageView // Declarar circle2 como propriedade da classe
+    private lateinit var circle3: ImageView // Declarar circle3 como propriedade da classe
+    private lateinit var circles: List<ImageView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,11 +64,12 @@ class MainActivity : AppCompatActivity() {
         val botaoTipoRegaON: Button = findViewById(R.id.botaoTipoRegaON)
         val botaoTipoRegaAUTO: Button = findViewById(R.id.botaoTipoRegaAUTO)
 
-        val circle1: ImageView = findViewById(R.id.circle1)
-        val circle2: ImageView = findViewById(R.id.circle2)
-        val circle3: ImageView = findViewById(R.id.circle3)
+        circle1 = findViewById(R.id.circle1)
+        circle2 = findViewById(R.id.circle2)
+        circle3 = findViewById(R.id.circle3)
 
-        val circles = listOf(circle1, circle2, circle3)
+         circles = listOf(circle1, circle2, circle3)
+
 
         // Definir o modo inicial como "AUTO"
         activateCircle(circle3, circles, "AUTO")
@@ -71,15 +77,18 @@ class MainActivity : AppCompatActivity() {
         botaoTipoRegaOFF.setOnClickListener {
             activateCircle(circle1, circles, "OFF")
             setManualIrrigationState("off")
+            refreshContent()
         }
         botaoTipoRegaON.setOnClickListener {
             activateCircle(circle2, circles, "ON")
             setManualIrrigationState("on")
+            refreshContent()
         }
         botaoTipoRegaAUTO.setOnClickListener {
             activateCircle(circle3, circles, "AUTO")
             // Optionally set the irrigation state for AUTO mode if required
             setManualIrrigationState("auto")  // If you need to handle AUTO mode, otherwise you can remove this line
+            refreshContent()
         }
 
 
@@ -88,12 +97,15 @@ class MainActivity : AppCompatActivity() {
             setManualIrrigationState(text)
         }
 
+
+
         //atualizarHumidade.setOnClickListener{
            // getLedState()
          //   getHumidadeState()
        //     getRAState()
      //   }
     }
+
 
     private fun activateCircle(activeCircle: ImageView, allCircles: List<ImageView>, mode: String) {
         for (circle in allCircles) {
@@ -220,6 +232,35 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
+    private fun getRegaState(callback: (String) -> Unit) {
+        val call = ApiService.api.getRega()
+        // To get LED state
+        call.enqueue(object : Callback<RegaResponse> {
+            override fun onResponse(call: Call<RegaResponse>, response: Response<RegaResponse>) {
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if (apiResponse != null) {
+                        val rega = apiResponse.estadoRegaManual
+                        Log.e("ADMIN!!", "Rega: $rega")
+                        // Handle the LED state
+                        callback(rega) // Chama a função de retorno de chamada com o estado da rega
+                    } else {
+                        Log.e("Erro", "Resposta vazia ou mal formatada--------------")
+                    }
+                } else {
+                    Log.e("Erro", "Resposta não bem-sucedida-------------------")
+                }
+            }
+
+            override fun onFailure(call: Call<RegaResponse>, t: Throwable) {
+                // Handle failure
+                t.printStackTrace()
+                Log.e("Erro", "Erro na chamada à API: ${t.message}")
+            }
+        })
+    }
+
+
 
         // Função para definir o estado da rega manual
         private fun setManualIrrigationState(newState: String) {
@@ -249,9 +290,17 @@ class MainActivity : AppCompatActivity() {
         getLedState()
         getHumidadeState()
         getRAState()
+        getRegaState { rega ->
+            when (rega) {
+                "off" -> activateCircle(circle1, circles, "OFF")
+                "on" -> activateCircle(circle2, circles, "ON")
+                "auto" -> activateCircle(circle3, circles, "AUTO")
+            }
+            // Parar a animação de atualização apenas quando todas as chamadas da API forem concluídas
+            swipeRefreshLayout.isRefreshing = false
+            // Aqui você pode fazer algo com o estado da rega se precisar
 
-        // Pare a animação de atualização
-        swipeRefreshLayout.isRefreshing = false
+        }
     }
 
 // Exemplo de uso:
