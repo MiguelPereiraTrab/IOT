@@ -23,6 +23,7 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
     private lateinit var circuloLED: ImageView
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var circuloHumidade: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +32,14 @@ class MainActivity : AppCompatActivity() {
         // Inicializar circuloLED
         circuloLED = findViewById(R.id.circuloLED)
 
+
         sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+
+        //variaveis ainda n usadas
+        circuloHumidade = findViewById(R.id.circuloHumidade)
+        val displayHumidade = findViewById<TextView>(R.id.displayHumidade)
+        val atualizarHumidade = findViewById<Button>(R.id.atualizarHumidade)
+
 
         val listaFlores = findViewById<Button>(R.id.listaFlores)
         val estadoRega = findViewById<EditText>(R.id.estadoRega)
