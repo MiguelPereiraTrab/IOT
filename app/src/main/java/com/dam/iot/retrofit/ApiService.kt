@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiService {
     private val gson: Gson = GsonBuilder().setLenient().create()
-    private const val BASE_URL = "http://192.168.1.73:5000/" // Atualize com o endereço do seu servidor API
+    private const val BASE_URL = "https://briefly-bold-mule.ngrok-free.app/" // Atualize com o endereço do seu servidor API
     private const val USERNAME = "diogo" // Substitua pelo nome de usuário
     private const val PASSWORD = "12345" // Substitua pela senha
 
