@@ -1,6 +1,8 @@
 package com.dam.iot
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,11 +22,17 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     private lateinit var circuloLED: ImageView
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Inicializar circuloLED
         circuloLED = findViewById(R.id.circuloLED)
+
+        sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+
         val listaFlores = findViewById<Button>(R.id.listaFlores)
         val estadoRega = findViewById<EditText>(R.id.estadoRega)
         val adicionarFlores = findViewById<Button>(R.id.adicionarFLores)
@@ -38,6 +46,11 @@ class MainActivity : AppCompatActivity() {
         val circle3: ImageView = findViewById(R.id.circle3)
 
         val circles = listOf(circle1, circle2, circle3)
+
+        // Recuperar o modo salvo nas SharedPreferences, se não existir, usar "AUTO" como padrão
+        val savedMode = sharedPreferences.getString("mode", "")
+        val initialMode = if (savedMode.isNullOrEmpty() || savedMode == "ON") "AUTO" else savedMode
+        activateCircle(getActiveCircleForMode(initialMode, circles), circles, initialMode)
 
         botaoTipoRegaOFF.setOnClickListener { activateCircle(circle1, circles , "OFF") }
         botaoTipoRegaON.setOnClickListener { activateCircle(circle2, circles , "ON") }
@@ -67,6 +80,21 @@ class MainActivity : AppCompatActivity() {
             "OFF" -> circuloLED.setBackgroundResource(R.drawable.circle_off)
             "ON" -> circuloLED.setBackgroundResource(R.drawable.circle_on)
             "AUTO" -> circuloLED.setBackgroundResource(R.drawable.circle_yellow)
+        }
+
+        // Salvar o modo selecionado nas SharedPreferences
+        with(sharedPreferences.edit()) {
+            putString("mode", mode)
+            apply()
+        }
+    }
+
+    // Retorna o círculo ativo correspondente ao modo
+    private fun getActiveCircleForMode(mode: String, circles: List<ImageView>): ImageView {
+        return when (mode) {
+            "OFF" -> circles[0]
+            "ON" -> circles[1]
+            else -> circles[2] // "AUTO"
         }
     }
 
