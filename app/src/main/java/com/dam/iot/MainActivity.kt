@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var circle2: ImageView // Declarar circle2 como propriedade da classe
     private lateinit var circle3: ImageView // Declarar circle3 como propriedade da classe
     private lateinit var circles: List<ImageView>
+    private val handler = Handler(Looper.getMainLooper()) // Criar um objeto Handler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,18 +80,18 @@ class MainActivity : AppCompatActivity() {
         botaoTipoRegaOFF.setOnClickListener {
             activateCircle(circle1, circles, "OFF")
             setManualIrrigationState("off")
-            refreshContent()
+            handler.postDelayed({ refreshContent() }, 1000)
         }
         botaoTipoRegaON.setOnClickListener {
             activateCircle(circle2, circles, "ON")
             setManualIrrigationState("on")
-            refreshContent()
+            handler.postDelayed({ refreshContent() }, 1000)
         }
         botaoTipoRegaAUTO.setOnClickListener {
             activateCircle(circle3, circles, "AUTO")
             // Optionally set the irrigation state for AUTO mode if required
             setManualIrrigationState("auto")  // If you need to handle AUTO mode, otherwise you can remove this line
-            refreshContent()
+            handler.postDelayed({ refreshContent() }, 1000)
         }
 
 
