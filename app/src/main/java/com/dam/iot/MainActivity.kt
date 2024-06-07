@@ -47,10 +47,8 @@ class MainActivity : AppCompatActivity() {
 
         val circles = listOf(circle1, circle2, circle3)
 
-        // Recuperar o modo salvo nas SharedPreferences, se não existir, usar "AUTO" como padrão
-        val savedMode = sharedPreferences.getString("mode", "")
-        val initialMode = if (savedMode.isNullOrEmpty() || savedMode == "ON") "AUTO" else savedMode
-        activateCircle(getActiveCircleForMode(initialMode, circles), circles, initialMode)
+        // Definir o modo inicial como "AUTO"
+        activateCircle(circle3, circles, "AUTO")
 
         botaoTipoRegaOFF.setOnClickListener { activateCircle(circle1, circles , "OFF") }
         botaoTipoRegaON.setOnClickListener { activateCircle(circle2, circles , "ON") }
@@ -86,15 +84,6 @@ class MainActivity : AppCompatActivity() {
         with(sharedPreferences.edit()) {
             putString("mode", mode)
             apply()
-        }
-    }
-
-    // Retorna o círculo ativo correspondente ao modo
-    private fun getActiveCircleForMode(mode: String, circles: List<ImageView>): ImageView {
-        return when (mode) {
-            "OFF" -> circles[0]
-            "ON" -> circles[1]
-            else -> circles[2] // "AUTO"
         }
     }
 
