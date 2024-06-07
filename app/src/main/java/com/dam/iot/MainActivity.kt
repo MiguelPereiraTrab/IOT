@@ -11,6 +11,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dam.iot.model.ApiHumidadeResponse
 import com.dam.iot.model.ApiLedResponse
 import com.dam.iot.model.ApiRAResponse
@@ -24,11 +26,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var circuloLED: ImageView
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var circuloHumidade: ImageView
+    private lateinit var displayHumidade: TextView
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var regState: TextView // Adiciona esta linha
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout.setOnRefreshListener {
+            refreshContent()
+        }
         // Inicializar circuloLED
         circuloLED = findViewById(R.id.circuloLED)
 
@@ -37,8 +46,9 @@ class MainActivity : AppCompatActivity() {
 
         //variaveis ainda n usadas
         circuloHumidade = findViewById(R.id.circuloHumidade)
-        val displayHumidade = findViewById<TextView>(R.id.displayHumidade)
-        val atualizarHumidade = findViewById<Button>(R.id.atualizarHumidade)
+        displayHumidade = findViewById<TextView>(R.id.displayHumidade)
+        regState = findViewById(R.id.regState) // Inicializa o TextView do estado da rega
+       // val atualizarHumidade = findViewById<Button>(R.id.atualizarHumidade)
 
 
         val listaFlores = findViewById<Button>(R.id.listaFlores)
@@ -58,20 +68,31 @@ class MainActivity : AppCompatActivity() {
         // Definir o modo inicial como "AUTO"
         activateCircle(circle3, circles, "AUTO")
 
-        botaoTipoRegaOFF.setOnClickListener { activateCircle(circle1, circles , "OFF") }
-        botaoTipoRegaON.setOnClickListener { activateCircle(circle2, circles , "ON") }
-        botaoTipoRegaAUTO.setOnClickListener { activateCircle(circle3, circles, "AUTO") }
-
-        listaFlores.setOnClickListener {
-            getLedState()
-            getHumidadeState()
-            getRAState()
+        botaoTipoRegaOFF.setOnClickListener {
+            activateCircle(circle1, circles, "OFF")
+            setManualIrrigationState("off")
         }
+        botaoTipoRegaON.setOnClickListener {
+            activateCircle(circle2, circles, "ON")
+            setManualIrrigationState("on")
+        }
+        botaoTipoRegaAUTO.setOnClickListener {
+            activateCircle(circle3, circles, "AUTO")
+            // Optionally set the irrigation state for AUTO mode if required
+            setManualIrrigationState("auto")  // If you need to handle AUTO mode, otherwise you can remove this line
+        }
+
 
         adicionarFlores.setOnClickListener {
             val text = estadoRega.text.toString()
             setManualIrrigationState(text)
         }
+
+        //atualizarHumidade.setOnClickListener{
+           // getLedState()
+         //   getHumidadeState()
+       //     getRAState()
+     //   }
     }
 
     private fun activateCircle(activeCircle: ImageView, allCircles: List<ImageView>, mode: String) {
@@ -93,6 +114,13 @@ class MainActivity : AppCompatActivity() {
             putString("mode", mode)
             apply()
         }
+
+        // Verificar se o modo é AUTO e atualizar o estado da rega
+        if (mode == "AUTO") {
+            getRAState()
+        } else {
+            regState.text = "" // Limpa o estado da rega quando não está no modo AUTO
+        }
     }
 
 
@@ -108,6 +136,11 @@ class MainActivity : AppCompatActivity() {
                             val led = apiResponse.estado
                             Log.e("ADMIN!!", "Alerta Humidade: $led")
                             // Handle the LED state
+                            if (led == "on") {
+                                circuloHumidade.setBackgroundResource(R.drawable.circle_on) // Green circle
+                            } else {
+                                circuloHumidade.setBackgroundResource(R.drawable.circle_off) // Red circle
+                            }
                         } else {
                             Log.e("Erro", "Resposta vazia ou mal formatada")
                         }
@@ -136,6 +169,7 @@ class MainActivity : AppCompatActivity() {
                             val humidade = apiResponse.humidade
                             Log.e("ADMIN!!", "Humidade: $humidade")
                             // Handle the LED state
+                            displayHumidade.text = "$humidade"
                         } else {
                             Log.e("Erro", "Resposta vazia ou mal formatada")
                         }
@@ -164,6 +198,11 @@ class MainActivity : AppCompatActivity() {
                             val regaAuto = apiResponse.estadoRegaAutomatica
                             Log.e("ADMIN!!", "Rega Automatica: $regaAuto")
                             // Handle the LED state
+                            if (regaAuto == "on") {
+                                regState.text = "A regar"
+                            } else {
+                                regState.text = "Rega Desligada"
+                            }
                         } else {
                             Log.e("Erro", "Resposta vazia ou mal formatada")
                         }
@@ -204,6 +243,16 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
+
+    private fun refreshContent() {
+        // Chame as funções para atualizar o conteúdo
+        getLedState()
+        getHumidadeState()
+        getRAState()
+
+        // Pare a animação de atualização
+        swipeRefreshLayout.isRefreshing = false
+    }
 
 // Exemplo de uso:
 // Para ligar a rega manual:
