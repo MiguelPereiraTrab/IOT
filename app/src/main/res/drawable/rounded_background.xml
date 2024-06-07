@@ -1,0 +1,5 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="20dp" /> <!-- Defina o raio desejado para as bordas arredondadas -->
+    <solid android:color="#808080" /> <!-- Cor de fundo do LinearLayout -->
+</shape>

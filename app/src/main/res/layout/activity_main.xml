@@ -11,42 +11,197 @@
         android:id="@+id/toolbar_layout"
         layout="@layout/activity_toolbar" />
 
-    <Button
-        android:id="@+id/listaFlores"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#006400"
-        android:text="Lista Flores"
-        android:textColor="@color/white"
+    <!-- Repita para os outros quadrados -->
+
+    <!-- Quadrados restantes -->
+
+
+    <LinearLayout
+        android:id="@+id/square1"
+        android:layout_width="170dp"
+        android:layout_height="210dp"
+
+        android:background="@drawable/rounded_background"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.082"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.348" />
+        app:layout_constraintVertical_bias="0.238">
+
+        <TextView
+            android:id="@+id/humidade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Humidade"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="24dp" />
+
+        <Button
+            android:id="@+id/butaoHumidade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#006400"
+            android:text="Atualizar"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/displayHumidade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="toufartodisto"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/square2"
+        android:layout_width="170dp"
+        android:layout_height="210dp"
+        android:background="@drawable/rounded_background"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.933"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.238">
+
+        <TextView
+            android:id="@+id/led"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Led"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="24dp" />
+
+
+        <ImageView
+            android:id="@+id/circuloLED"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_off" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/square3"
+        android:layout_width="170dp"
+        android:layout_height="210dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/rounded_background"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.721">
+
+        <TextView
+            android:id="@+id/tipoRega"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Tipo de Rega"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="24dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/botaoTipoRegaOFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#006400"
+                android:text="OFF"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:id="@+id/circle1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/circle_off" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/botaoTipoRegaON"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#006400"
+                android:text="ON"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:id="@+id/circle2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/circle_off" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/botaoTipoRegaAUTO"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#006400"
+                android:text="AUTO"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:id="@+id/circle3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/circle_off" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <Button
-        android:id="@+id/adicionarFlores"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#006400"
-        android:text="Adicionar Flores"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.601" />
+        android:text="listaFlores"
+        android:id="@+id/listaFlores"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="adicionarFlores"
+        android:id="@+id/adicionarFLores"/>
 
     <EditText
-        android:id="@+id/estadoRega"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/listaFlores"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" />
+        android:id="@+id/estadoRega"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
