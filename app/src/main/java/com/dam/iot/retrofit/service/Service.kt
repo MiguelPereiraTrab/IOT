@@ -6,6 +6,7 @@ import com.dam.iot.model.ApiRAResponse
 
 
 import com.dam.iot.model.RegaRequest
+import com.dam.iot.model.RegaResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -19,6 +20,9 @@ interface Service {
 
     @GET("humidade")
     fun getHumidity(): Call<ApiHumidadeResponse>
+
+    @GET("rega/estado")
+    fun getRega(): Call<RegaResponse>
 
     @POST("rega/manual")
     fun setManualRega(@Body request: RegaRequest): Call<RegaRequest>
