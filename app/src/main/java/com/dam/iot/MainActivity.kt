@@ -87,12 +87,11 @@ class MainActivity : AppCompatActivity() {
             val text = estadoRega.text.toString()
             setManualIrrigationState(text)
         }
-
         //atualizarHumidade.setOnClickListener{
-           // getLedState()
-         //   getHumidadeState()
-       //     getRAState()
-     //   }
+        // getLedState()
+        //   getHumidadeState()
+        //     getRAState()
+        //   }
     }
 
     private fun activateCircle(activeCircle: ImageView, allCircles: List<ImageView>, mode: String) {
@@ -253,13 +252,5 @@ class MainActivity : AppCompatActivity() {
         // Pare a animação de atualização
         swipeRefreshLayout.isRefreshing = false
     }
-
-// Exemplo de uso:
-// Para ligar a rega manual:
-        //  setManualIrrigationState("on")
-
-// Para desligar a rega manual:
-        // setManualIrrigationState("off")
-
 
     }
